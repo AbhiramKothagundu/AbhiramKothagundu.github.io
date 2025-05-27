@@ -19,6 +19,16 @@
     background-color: var(--bg-color);
     color: var(--text-color);
     transition: background-color 0.3s, color 0.3s;
+    position: relative;
+  }
+
+  canvas#bouncing-square {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
   }
 
   section {
@@ -82,6 +92,8 @@
 </style>
 </head>
 <body>
+  <canvas id="bouncing-square"></canvas>
+
   <!-- Main section -->
   <section id="main">
     <h1>I'm Abhiram Kothagundu</h1>
@@ -118,6 +130,54 @@
   function scrollToSection(sectionId) {
     document.getElementById(sectionId).scrollIntoView({ behavior: "smooth" });
   }
+
+  // Bouncing rainbow square
+  const canvas = document.getElementById('bouncing-square');
+  const ctx = canvas.getContext('2d');
+
+  let square = {
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    size: 20, // small and cute!
+    dx: (Math.random() > 0.5 ? 1 : -1) * 2,
+    dy: (Math.random() > 0.5 ? 1 : -1) * 2,
+    hue: 0 // starting hue for rainbow
+  };
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  function animateSquare() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Update color (rainbow cycling)
+    square.hue = (square.hue + 1) % 360;
+    ctx.fillStyle = `hsl(${square.hue}, 100%, 50%)`;
+
+    // Draw square
+    ctx.fillRect(square.x, square.y, square.size, square.size);
+
+    // Update position
+    square.x += square.dx;
+    square.y += square.dy;
+
+    // Bounce off edges
+    if (square.x <= 0 || square.x + square.size >= canvas.width) {
+      square.dx *= -1;
+    }
+    if (square.y <= 0 || square.y + square.size >= canvas.height) {
+      square.dy *= -1;
+    }
+
+    requestAnimationFrame(animateSquare);
+  }
+
+  animateSquare();
 </script>
 </body>
 </html>
