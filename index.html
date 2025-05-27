@@ -5,11 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Abhiram Kothagundu</title>
 <style>
+  :root {
+    --bg-color: white;
+    --text-color: black;
+    --arrow-color: rgba(255, 255, 255, 0.3);
+    --arrow-hover-color: black;
+  }
+
   body {
     font-family: 'Times New Roman', sans-serif;
     margin: 0;
-    scroll-behavior: smooth; /* Smooth scrolling */
+    scroll-behavior: smooth;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
   }
+
   section {
     width: 100%;
     height: 100vh; /* Full viewport height */
@@ -19,37 +30,75 @@
     justify-content: center;
     position: relative;
   }
+
   h1, h2, h3, p {
     margin: 10px;
   }
+
   span {
-    color: rgb(0, 0, 0);
+    color: var(--text-color);
     font-weight: bold;
   }
+
   .arrow {
     position: absolute;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 2rem;
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--arrow-color);
     cursor: pointer;
-    transition: color 0.3s, transform 0.3s;
-    opacity: 0.5;
+    transition: color 0.3s, transform 0.3s, opacity 1s;
+    opacity: 0;
   }
+
+  .arrow.visible {
+    opacity: 0.3;
+  }
+
   .arrow:hover {
-    color: black;
+    color: var(--arrow-hover-color);
     transform: translateX(-50%) translateY(5px);
     opacity: 1;
+  }
+
+  /* Dark mode styles */
+  body.dark {
+    --bg-color: black;
+    --text-color: white;
+    --arrow-color: rgba(255, 255, 255, 0.3);
+    --arrow-hover-color: white;
+  }
+
+  /* Toggle button styling */
+  .toggle-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: 2px solid var(--text-color);
+    color: var(--text-color);
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 5px;
+  }
+
+  .toggle-btn:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
   }
 </style>
 </head>
 <body>
+  <!-- Toggle Button -->
+  <button class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
   <!-- Main section -->
   <section id="main">
     <h1>I'm Abhiram Kothagundu</h1>
     <h3>I'm <span id="age"></span> years old.</h3>
-    <div class="arrow" onclick="scrollToSection('about')">&#x25BC;</div>
+    <div class="arrow" id="down-arrow" onclick="scrollToSection('about')">&#x25BC;</div>
   </section>
 
   <!-- About section -->
@@ -74,6 +123,16 @@
   function scrollToSection(sectionId) {
     document.getElementById(sectionId).scrollIntoView({ behavior: "smooth" });
   }
+
+  // Toggle dark mode
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark');
+  }
+
+  // Show the arrow after 3 seconds
+  setTimeout(() => {
+    document.getElementById("down-arrow").classList.add("visible");
+  }, 3000);
 </script>
 </body>
 </html>
