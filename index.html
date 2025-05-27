@@ -6,9 +6,11 @@
 <title>Abhiram Kothagundu</title>
 <style>
   body {
-    font-family: Verdana, sans-serif;
+    font-family: 'Times New Roman', sans-serif;
     text-align: center;
     margin-top: 20%;
+    scroll-behavior: smooth; /* Smooth scroll effect */
+    position: relative;
   }
   h1, h3 {
     margin: 10px;
@@ -17,11 +19,45 @@
     color: rgb(0, 0, 0);
     font-weight: bold;
   }
+
+  /* Arrow styles */
+  .arrow {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    color: rgba(255, 255, 255, 0.3); /* Nearly white */
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+    opacity: 0.5;
+  }
+
+  .arrow:hover {
+    color: black;
+    transform: translateX(-50%) translateY(5px); /* Small downwards hover effect */
+    opacity: 1;
+  }
+
+  /* Down section */
+  #down {
+    margin-top: 100vh;
+    padding: 50px 20px;
+  }
 </style>
 </head>
 <body>
   <h1>I'm Abhiram Kothagundu</h1>
   <h3>I'm <span id="age"></span> years old.</h3>
+
+  <!-- Arrow Icon -->
+  <div class="arrow" onclick="scrollDown()">&#x25BC;</div>
+
+  <!-- Down section -->
+  <div id="down">
+    <h2>I'm good at:</h2>
+    <p>C++, Java, Python, C#</p>
+  </div>
 
 <script>
   const birthDate = new Date('2005-04-05T13:05:00Z');
@@ -31,10 +67,14 @@
     const ageInMilliseconds = now - birthDate;
     const ageInYears = ageInMilliseconds / (1000 * 60 * 60 * 24 * 365.2425);
     document.getElementById("age").textContent = ageInYears.toFixed(10);
-    requestAnimationFrame(updateAge); // Schedule next frame
+    requestAnimationFrame(updateAge);
   }
 
-  requestAnimationFrame(updateAge); // Start updating
+  requestAnimationFrame(updateAge);
+
+  function scrollDown() {
+    document.getElementById("down").scrollIntoView({ behavior: "smooth" });
+  }
 </script>
 </body>
 </html>
