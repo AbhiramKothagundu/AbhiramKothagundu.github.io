@@ -206,10 +206,10 @@ export function Suitcase({ position, scale = 0.7, open, onOpen, onPick, cards })
 
       {/* ID cards leaning back in the tray, each with its strap folded on top */}
       {cards.map((c, i) => {
-        const x = (i - (cards.length - 1) / 2) * 0.5
+        const x = (i - (cards.length - 1) / 2) * 0.44
         const h = hover === c.id
         return (
-          <group key={c.id} position={[x, 0.27 + (h ? 0.08 : 0), -0.1]} rotation={[-1.0, 0, (i % 2 ? 1 : -1) * 0.05]} scale={h ? 1.06 : 1}
+          <group key={c.id} position={[x, 0.27 + (h ? 0.08 : 0), -0.24]} rotation={[-1.0, 0, (i % 2 ? 1 : -1) * 0.04]} scale={h ? 0.96 : 0.9}
             onClick={(e) => open && (e.stopPropagation(), onPick(c))}
             onPointerOver={(e) => open && (e.stopPropagation(), setHover(c.id))}
             onPointerOut={() => setHover(null)}>
@@ -218,18 +218,22 @@ export function Suitcase({ position, scale = 0.7, open, onOpen, onPick, cards })
               <planeGeometry args={[0.44, 0.64]} />
               <meshBasicMaterial map={fronts[c.id]} toneMapped={false} />
             </mesh>
-            {[[-0.05, 0.15, 0.25], [0.05, 0.1, -0.25], [-0.04, 0.05, 0.2]].map(([px, py, rz], k) => (
-              <Ink key={k} size={[0.22, 0.045, 0.012]} color={c.color} position={[px, py, 0.025 + k * 0.012]} rotation={[0, 0, rz]} ink={0.01} />
-            ))}
           </group>
         )
       })}
+      {cards.map((c, i) => (
+        <group key={c.id} position={[(i - (cards.length - 1) / 2) * 0.44, T + 0.012, 0.2]}>
+          {[[0, 0, 0.35], [0.03, 0.06, -0.35], [-0.01, 0.12, 0.3]].map(([px, pz, ry], k) => (
+            <Ink key={k} size={[0.3, 0.012, 0.055]} color={c.color} position={[px, k * 0.014, pz]} rotation={[0, ry, 0]} ink={0.01} />
+          ))}
+        </group>
+      ))}
 
       {/* spiders: one dangling from the lid, one over the front edge, one walking the back wall */}
       <group ref={spiders}>
         <Spider anchor={[-0.5, 1.12, -0.6]} len={0.45} />
         <Spider anchor={[0.82, H + 0.02, D / 2 + 0.07]} len={0.22} speed={1.3} phase={2} size={1} />
-        <Spider path={[[-0.85, H, -D / 2 + T / 2], [-0.2, H, -D / 2 + T / 2]]} speed={0.7} phase={1} size={1} />
+        <Spider path={[[0.15, H, -D / 2 + T / 2], [0.8, H, -D / 2 + T / 2]]} speed={0.7} phase={1} size={1} />
       </group>
 
       <Dust count={90} area={[W - 0.2, 1.2, D - 0.2]} position={[0, 0.7, 0]} size={0.02} opacity={open ? 0.8 : 0} speed={0.06} />

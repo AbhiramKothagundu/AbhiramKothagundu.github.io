@@ -140,7 +140,9 @@ function World({ wx, open, setOpen, selected, pick }) {
       <ambientLight intensity={Math.PI} color={day && code === 0 ? '#fff3d6' : '#ffffff'} />
       <directionalLight position={[3, 5, 4]} intensity={2} />
       <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
-        <Band key={selected.id} data={selected} wind={wind} />
+        <group visible={!open}>
+          <Band key={selected.id} data={selected} wind={wind} />
+        </group>
       </Physics>
       {selected.old && <Dust count={120} area={[6, 8, 3]} position={[0.5, 1, 0]} size={0.04} opacity={0.5} />}
       <Suitcase position={casePos} open={open} onOpen={() => setOpen(true)} onPick={pick} cards={CARDS.filter((c) => c.old)} />
